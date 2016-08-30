@@ -1,3 +1,27 @@
-import {world} from "./mymodule";
+import React from "react";
+import ReactDOM from "react-dom";
+import { AppContainer } from 'react-hot-loader';
+import {Planner} from "./component"
 
-console.log(`hello ${world}`);
+const node = document.getElementById("planner")
+
+
+ReactDOM.render(
+  <AppContainer>
+    <Planner/>
+  </AppContainer>,
+  node
+);
+
+/*
+if ( module.hot ) {
+  module.hot.accept( './component', () => {
+    const NextRoot = require( './component' ).default;
+    ReactDOM.render(
+      <AppContainer>
+        <NextRoot />
+      </AppContainer>,
+      node
+    );
+  } );
+}*/

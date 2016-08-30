@@ -8,6 +8,15 @@
         "ecmaVersion": 6,
         "sourceType": "module"
     },
-    "extends": ["eslint:recommended"],
+    plugins : ["react"],
+    "extends": ["eslint:recommended","plugin:react/recommended"],
+
+    "rules":{
+        "no-unused-vars" : [1, {"vars": "all", "args": "all"}],
+        "no-unexpected-multiline" : 2,
+        "arrow-spacing": 1,
+        "no-console" : 1,
+        "react/prop-types" : [0]
+    }
 
 }

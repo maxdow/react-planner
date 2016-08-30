@@ -9,8 +9,9 @@ const templateIndex = path.resolve(__dirname, "../src/index.html");
 
 
 module.exports = {
-  devtool: "eval",
+  devtool: "cheap-module-eval-source-map",
   entry: [
+    "react-hot-loader/patch",
     "webpack-dev-server/client?http://localhost:3000",
     "webpack/hot/only-dev-server",
     sourceFolder
@@ -22,6 +23,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
     new HtmlWebpackPlugin({
       inject : true,
       template : templateIndex
