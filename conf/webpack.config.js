@@ -9,11 +9,11 @@ const templateIndex = path.resolve(__dirname, "../src/index.html");
 
 
 module.exports = {
-  devtool: "cheap-module-eval-source-map",
+  devtool: "eval",
   entry: [
-    "react-hot-loader/patch",
     "webpack-dev-server/client?http://localhost:3000",
     "webpack/hot/only-dev-server",
+    "react-hot-loader/patch",
     sourceFolder
   ],
   output: {

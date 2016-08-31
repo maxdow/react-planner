@@ -1,0 +1,23 @@
+.rpl-body {
+  border-left: 1px solid #888;
+  /*
+  display: inline-block;
+  width: 100%;*/
+}
+
+.rpl-body-daylist {
+  border-bottom : 1px solid #aaa;
+  display: flex;
+  height : 2em;
+  position: relative;
+}
+
+.rpl-body-daylist-day ,.rpl-body-daylist-day--current{
+  /*border-left: 1px solid #888;*/
+  border-right: 1px solid #888;
+  flex:1;
+}
+
+.rpl-body-daylist-day--current {
+
+}
