@@ -19,21 +19,53 @@ function itemByDay(items,day){
   return items.filter(item => item.start)
 }
 
-const Day = ({startDate,nDay,currentDate}) => {
-  const newDate = startDate.clone().add(nDay,"d");
-  return  <div className={newDate.isSame(currentDate,"day") ? "rpl-body-daylist-day--current" : "rpl-body-daylist-day"}></div>
+const Day = ({date,currentDate}) => {
+  return  <div className={date.isSame(currentDate,"day") ? "rpl-body-daylist-day--current" : "rpl-body-daylist-day"}></div>
+}
+
+function findnDayFromItem(days,item){
+  return days.findIndex(day => day.isSame(item.start,"day"))
 }
 
 class DayListContainer extends Component{
   constructor(props){
     super(props)
+    this.placeItems = this.placeItems.bind(this)
+    this.state = {
+      items : [],
+      days : aWeek.map(nDay => this.props.startDate.clone().add(nDay,"d"))
+    }
+  }
+  componentWillReceiveProps(nextprops){
+    const newDays = aWeek.map(nDay => nextprops.startDate.clone().add(nDay,"d"))
+    this.setState({
+      days : newDays,
+      items : this.props.items.map(item => Object.assign({},item,
+        {positionX : this.dimensionJour*findnDayFromItem(newDays,item)}
+        ))
+    })
+  }
+  placeItems(domnode){
+    //const positionX = domnode.getBoundingClientRect().left;
+    if(domnode){
+      this.dimensionJour = domnode.childNodes[0].getBoundingClientRect().width;
+
+    }
+
+    this.setState({
+      items : this.props.items.map(item => Object.assign(item,
+        {positionX : this.dimensionJour*findnDayFromItem(this.state.days,item)}
+        ))
+      })
   }
   render(){
     const {startDate, currentDate, items} = this.props;
     return (
-      <div className="rpl-body-daylist">
-        {aWeek.map((nDay) => <Day startDate={startDate} currentDate={currentDate} nDay={nDay} key={nDay}/>)}
-        {items.map((item,index) => <div key={index} style={itemStyle}></div>)}
+      <div className="rpl-body-daylist" ref={this.placeItems}>
+        {this.state.days.map((day,index) => <Day currentDate={currentDate} date={day} key={index}/>)}
+        {this.state.items.map((item,index) => <div key={index} style={Object.assign({},itemStyle,{
+          left : item.positionX
+        })}></div>)}
       </div>
     )
   }
