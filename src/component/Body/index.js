@@ -1,6 +1,8 @@
 import React,{Component} from "react"
 import moment from "moment"
 import tinycolor from "tinycolor2"
+// import Draggable from "react-draggable"
+import ResizableAndMovable from "react-resizable-and-movable"
 import "./body.css"
 
 const aWeek = [0,1,2,3,4,5,6];
@@ -28,14 +30,24 @@ const Day = ({date,currentDate}) => (
    <div className={date.isSame(currentDate,"day") ? "rpl-body-daylist-day--current" : "rpl-body-daylist-day"}></div>
 )
 
-const Item = ({item,colors}) => (
-  <div style={Object.assign({},itemStyle,{
-          left : item.positionX,
-          width:item.width,
-          borderColor:colors.border,
-          background: colors.background
-        })}>
-  </div>
+const Item = ({item,colors,dimensionJour,bounds}) => (
+  <ResizableAndMovable
+    width={item.width}
+    minWidth={dimensionJour}
+    height={itemStyle.height}
+    resizeGrid={[dimensionJour,0]}
+    movableGrid={[dimensionJour,0]}
+    moveAxis="x"
+    bounds={bounds.getBoundingClientRect()}
+    x={item.positionX}
+    style={Object.assign({},itemStyle,{
+              // left : item.positionX,
+              width:item.width,
+              borderColor:colors.border,
+              background: colors.background
+            })}
+  >
+  </ResizableAndMovable>
   )
 
 
@@ -89,6 +101,7 @@ class DayListContainer extends Component{
     //const positionX = domnode.getBoundingClientRect().left;
     if(domnode){
       this.dimensionJour = domnode.childNodes[0].getBoundingClientRect().width;
+      this.domnode = domnode;
     }
 
     this.setState({
@@ -103,7 +116,13 @@ class DayListContainer extends Component{
       <div className="rpl-body-daylist" ref={this.placeItems}>
         {this.state.days.map((day,index) => <Day currentDate={currentDate} date={day} key={index}/>)}
 
-        {this.state.items.map((item,index) => <Item key={index} item={item} colors={this.colors}/>)}
+        {this.state.items.map((item,index) => <Item key={index}
+                                                    item={item}
+                                                    colors={this.colors}
+                                                    dimensionJour={this.dimensionJour}
+                                                    bounds={this.domnode}
+                                                    />
+                              )}
 
       </div>
     )
