@@ -1,8 +1,12 @@
+
 .rpl-body {
-  border-left: 1px solid #888;
+  border: 1px solid #888;
+  box-sizing : border-box;
+
   /*
   display: inline-block;
   width: 100%;*/
+  position: relative;
 }
 
 .rpl-body-daylist {
@@ -20,4 +24,12 @@
 
 .rpl-body-daylist-day--current {
   background: #fafafa;
+}
+
+.rpl-body-grid-line {
+
+}
+
+.react-grid-item.react-grid-placeholder {
+  background : #888;
 }
