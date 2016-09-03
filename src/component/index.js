@@ -1,9 +1,8 @@
 import React,{Component} from "react";
 import {Header} from "./Header"
 import {SideBar} from "./SideBar"
-import {Body} from "./Body"
+import Body from "./Body"
 import moment from "moment"
-
 const mainContainerStyle = {
   display: "flex",
   flexDirection: "column"
@@ -28,6 +27,7 @@ const sideBarStyle = {
 
 const bodyContainerStyle = {
   display: "flex",
+  flexDirection:"column",
   flex : 1
 }
 
@@ -58,10 +58,13 @@ export class Planner extends Component {
       <div style={mainContainerStyle}>
 
 
-      <div style={headContainerStyle}>
+      {/*<div style={headContainerStyle}>
 
         <div style={filterStyle}>filter</div>
 
+      </div>*/}
+
+      <div style={bodyContainerStyle}>
         <Header
           style={headerStyle}
           startDate={this.state.currentStartDate}
@@ -69,10 +72,7 @@ export class Planner extends Component {
           onWeekSub={() => this.handleTimeChange(false)}
           onWeekAdd={() => this.handleTimeChange(true)}
         />
-      </div>
-
-      <div style={bodyContainerStyle}>
-        <SideBar style={sideBarStyle} keys={this.props.keys} />
+        {/*<SideBar style={sideBarStyle} keys={this.props.keys} />*/}
         <Body style={bodyStyle} keys={this.props.keys} items={this.props.items}
           startDate={this.state.currentStartDate}
           currentDate={this.state.currentDate}/>

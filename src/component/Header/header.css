@@ -5,12 +5,16 @@
 }
 
 .rpl-header-daylist > div {
-  flex: 1;
-  padding: 0 5px ;
-  border-right : 1px solid #888;
-  text-align: center;
+  /*flex: 1;*/
+  /*padding: 0 5px ;*/
+  /*border-right : 1px solid #888;*/
 }
 
+.rpl-header-daylist-day {
+  text-align: center;
+  border-right : 1px solid #888;
+  border-top : 1px solid #888;
+}
 .rpl-header-daylist-day--current {
   background: #aaa;
 }

@@ -15,7 +15,8 @@ const keys = [
   {id : 3,title:"module 3",color:"green"}
 ]
 const items = [
-  {key:1,start:new Date(2016,7,29,9),end:new Date(2016,7,31,19)},
+  {key:1,start:new Date(2016,7,29,9),end:new Date(2016,7,30,19)},
+  {key:1,start:new Date(2016,7,31,9),end:new Date(2016,8,2,19)},
   {key:2,start:new Date(2016,7,30,9),end:new Date(2016,7,30,19)},
   {key:3,start:new Date(2016,7,31,9),end:new Date(2016,8,3,19)}
 ]

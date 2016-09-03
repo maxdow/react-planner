@@ -2,20 +2,24 @@ import React,{Component} from "react"
 import moment from "moment"
 import tinycolor from "tinycolor2"
 // import Draggable from "react-draggable"
-import ResizableAndMovable from "react-resizable-and-movable"
+import ReactGridLayout,{WidthProvider} from 'react-grid-layout';
+const ReactGridLayoutw = WidthProvider(ReactGridLayout)
+import "react-grid-layout/css/styles.css"
+import "react-resizable/css/styles.css"
 import "./body.css"
 
 const aWeek = [0,1,2,3,4,5,6];
+
 
 const itemStyle = {
   boxSizing : "border-box",
   background: "rgba(0,0,0,0.5)",
   border : "2px solid #000",
-  borderRadius: "5px",
-  height:"1.4em",
-  position: "absolute",
-  left:0,
-  top:"0.3em"
+  borderRadius: "5px"//,
+  // height:"1.4em",
+  //position: "absolute",
+  //left:0,
+  // top:"0.3em"
 }
 
 function itemsByKey(items,key){
@@ -30,110 +34,105 @@ const Day = ({date,currentDate}) => (
    <div className={date.isSame(currentDate,"day") ? "rpl-body-daylist-day--current" : "rpl-body-daylist-day"}></div>
 )
 
-const Item = ({item,colors,dimensionJour,bounds}) => (
-  <ResizableAndMovable
-    width={item.width}
-    minWidth={dimensionJour}
-    height={itemStyle.height}
-    resizeGrid={[dimensionJour,0]}
-    movableGrid={[dimensionJour,0]}
-    moveAxis="x"
-    bounds={bounds.getBoundingClientRect()}
-    x={item.positionX}
-    style={Object.assign({},itemStyle,{
-              // left : item.positionX,
-              width:item.width,
+
+
+
+
+
+
+const DayListContainer = ({items,linekey,startDate,days}) => {
+
+  const color = tinycolor(linekey.color);
+
+  const colors = {
+    border : color.toString(),
+    background : color.setAlpha(.5).toRgbString()
+  }
+
+  const layout = [{
+        i:linekey.title,
+        x:0,
+        y:0,
+        w:1,
+        h:1,
+        maxH:1,
+        static: true
+        }].concat(items
+              .filter(item => moment(item.start).isSame(startDate,"week"))
+              .map((item,index) => {
+                const startDay = days.findIndex(day => day.isSame(item.start,"day"))
+                const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
+
+                return {
+                  i:linekey.title+index,
+                  data:item,
+                  x:startDay+1,
+                  y:0,
+                  w:endDay === -1 ? (7-startDay) : (endDay - startDay + 1),
+                  h:1,
+                  maxH:1
+                }
+              }
+          ))
+  return (
+      <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={36} margin={[0,0]} >
+        {
+          layout.map((item,index) => index === 0 ?
+
+            <div key={item.i}>{linekey.title}</div> :
+
+            <div style={Object.assign({},itemStyle,{
               borderColor:colors.border,
               background: colors.background
-            })}
-  >
-  </ResizableAndMovable>
+            })} key={item.i}></div>)
+        }
+      </ReactGridLayoutw>
+
   )
 
-
-
-function getDOMItems(dimensionJour,startDate,days,items){
-
-  return items
-        .filter(item => moment(item.start).isSame(startDate,"week"))
-        .map(item => {
-          const startDay = days.findIndex(day => day.isSame(item.start,"day"))
-          const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
-
-          return Object.assign({},item,
-                  {
-                    positionX : dimensionJour*startDay,
-                    width : endDay === -1 ? (7-startDay)*dimensionJour : dimensionJour*(endDay - startDay + 1)
-                  })
-        }
-          )
 }
-
-
-class DayListContainer extends Component{
-  constructor(props){
-    super(props)
-
-    this.placeItems = this.placeItems.bind(this)
-
-    const color = tinycolor(props.linekey.color);
-
-    this.colors = {
-      border : color.toString(),
-      background : color.setAlpha(.5).toRgbString()
-    }
-
-    this.state = {
-      items : [],
-      days : aWeek.map(nDay => this.props.startDate.clone().add(nDay,"d"))
-    }
-  }
-  componentWillReceiveProps({startDate,items}){
-    const newDays = aWeek.map(nDay => startDate.clone().add(nDay,"d"))
-    this.setState({
-      days : newDays,
-      items : getDOMItems(this.dimensionJour,startDate,newDays,items)
-    })
-  }
-
-
-  placeItems(domnode){
-    //const positionX = domnode.getBoundingClientRect().left;
-    if(domnode){
-      this.dimensionJour = domnode.childNodes[0].getBoundingClientRect().width;
-      this.domnode = domnode;
-    }
-
-    this.setState({
-      items : getDOMItems(this.dimensionJour, this.props.startDate, this.state.days, this.props.items)
-    })
-  }
-  render(){
-
-    const {currentDate} = this.props;
-
-    return (
-      <div className="rpl-body-daylist" ref={this.placeItems}>
-        {this.state.days.map((day,index) => <Day currentDate={currentDate} date={day} key={index}/>)}
-
-        {this.state.items.map((item,index) => <Item key={index}
-                                                    item={item}
-                                                    colors={this.colors}
-                                                    dimensionJour={this.dimensionJour}
-                                                    bounds={this.domnode}
-                                                    />
-                              )}
-
-      </div>
-    )
-  }
-}
-
 
 /*TODO filterItemByWeek before sending to the body component*/
+const BodyGrid = (props) => {
+  const {width} = props;
+  return (
+    <div className="rpl-body-grid-line" style={{
+      // opacity : mounted ? 1 : 0,
+      //transition: "opacity 0.8s ease",
+      position:"absolute",
+      width : width,
+      height : "100%"
+    }}>
+    {aWeek.map(day => <div key={day} style={{
+      boxSizing : "border-box",
+      background: day%2 ? "#fafafa" : "#fcfcfc",
+      position:"absolute",
+      height:"100%",
+      width: width/8,
+      left:(day+1)*width/8,
+      borderRight:"1px solid #888"
+    }}></div>)}
+    </div>
+  )
+}
 
-export const Body = ({style,keys=[],items=[],startDate,currentDate}) => (
-  <div style={style} className="rpl-body">
+const Body = ({style,keys,startDate,currentDate,items,width}) => {
+
+  const days = aWeek.map(nDay => startDate.clone().add(nDay,"d"));
+  return (
+      <div style={style} className="rpl-body">
+      <BodyGrid width={width}/>
+      {
+        keys.map((key,index) => <div key={index} /*style={{background : index%2 ? "#dedede" : "#efefef",position:"relative"}}*/>
+          <DayListContainer style={{paddingTop : 2}} startDate={startDate} currentDate={currentDate} items={itemsByKey(items,key)} linekey={key} days={days} width={0}/>
+
+          </div>)
+      }
+
+      </div>
+  )
+}
+{/*  <div style={style} className="rpl-body">
     {
       keys.map((key,index) => <div key={index}>
 
@@ -141,5 +140,6 @@ export const Body = ({style,keys=[],items=[],startDate,currentDate}) => (
 
         </div>)
     }
-  </div>
-)
+  </div>*/}
+
+  export default WidthProvider(Body)
