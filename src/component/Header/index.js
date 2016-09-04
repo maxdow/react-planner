@@ -6,6 +6,8 @@ import "./header.css"
 
 const aWeek = [0,1,2,3,4,5,6];
 
+//const Day = ({day,skin}) => <div className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"} key={day.i}>{day.title}</div>
+
 export const DayList = ({startDate, currentDate}) => {
   const layout = aWeek.map((day) => {
     const newDate = startDate.clone().add(day,"d");
@@ -21,11 +23,17 @@ export const DayList = ({startDate, currentDate}) => {
     }
 
   })
+
+
   return (
   <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={36} margin={[0,0]} >
-    {layout.map(day => <div className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"} key={day.i}>{day.title}</div> )}
+    {layout.map(day => <div key={day.i}
+      className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"}>
+      {day.title}
+    </div> )}
   </ReactGridLayoutw>
   )
+
 }
 
 const Controls = ({startDate,onWeekSub,onWeekAdd,onMoveToday}) => (
@@ -44,7 +52,7 @@ export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,onMoveToday,st
 
         <Controls startDate={startDate} {...events} />
 
-        <DayList startDate={startDate} currentDate={currentDate}/>
+        <DayList startDate={startDate} currentDate={currentDate} />
 
     </div>
 

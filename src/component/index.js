@@ -1,6 +1,6 @@
 import React,{Component} from "react";
 import {Header} from "./Header"
-import {SideBar} from "./SideBar"
+//import {SideBar} from "./SideBar"
 import Body from "./Body"
 import moment from "moment"
 const mainContainerStyle = {
@@ -43,6 +43,7 @@ export class Planner extends Component {
       currentDate:moment(),
       currentStartDate:moment().startOf("week")
     }
+
     // this.handleTimeChange = this.handleTimeChange.bind(this)
   }
   handleTimeChange(isAdd){
