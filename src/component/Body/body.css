@@ -30,9 +30,10 @@
 }
 
 .rpl-sidebar-item {
-  border-right : 2px solid #777;
+  /*border-right : 2px solid #777;
   background : #eee;
   height:100%!important;
+  */
 }
 .rpl-body .react-grid-layout {
   border-bottom: 1px solid #aaa

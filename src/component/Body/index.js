@@ -73,7 +73,7 @@ class DayListContainer extends Component {
                 }
             ))
     return (
-        <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={36} margin={[0,0]}
+        <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={44} margin={[4,4]}
         onDrag={this.checkSideBarOverlaps}>
           {
             layout.map((item,index) => index === 0 ?
@@ -108,11 +108,11 @@ const BodyGrid = ({width,currentDate,startDate}) => {
       return (
         <div key={day} style={{
           boxSizing : "border-box",
-          background: isToday ? "#d4d6e8" : day%2 ? "#fff" : "#f2f2f2",
+          background: day === 0 ? "#" : isToday ? "#d4d6e8" : day%2 ? "#fff" : "#f2f2f2",
           position:"absolute",
           height:"100%",
           width: width/8,
-          left:(day+1)*width/8,
+          left:day*width/8,
           borderRight:"1px solid #888"
         }}>
         </div>)
