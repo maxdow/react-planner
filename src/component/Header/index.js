@@ -28,22 +28,18 @@ export const DayList = ({startDate, currentDate}) => {
   )
 }
 
+const Controls = ({startDate,onWeekSub,onWeekAdd}) => (
+  <div className="rpl-header-controls">
+    <button className="rpl-header-controls-button" onClick={onWeekSub}>-</button>
+    {`${startDate.format("MMMM")} ${startDate.year()}`} - Semaine {startDate.week()}
+    <button className="rpl-header-controls-button" onClick={onWeekAdd}>+</button>
+  </div>
+)
 
-export const Header = ({startDate,currentDate,onWeekSub,onWeekAdd,style}) => (
+export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,style}) => (
   <div style={style} className="rpl-header">
 
-    <div className="rpl-header-controls">
-      <div>
-      <button>-</button>
-      Année 2016
-      <button>+</button>
-      </div>
-      <div>
-      <button onClick={onWeekSub}>-</button>
-      Week {startDate.week()}
-      <button onClick={onWeekAdd}>+</button>
-      </div>
-    </div>
+    <Controls startDate={startDate} onWeekAdd={onWeekAdd} onWeekSub={onWeekSub} />
 
     <DayList startDate={startDate} currentDate={currentDate}/>
 

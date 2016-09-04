@@ -25,70 +25,70 @@ const itemStyle = {
 function itemsByKey(items,key){
   return items.filter(item => item.key === key.id)
 }
-/*
-function itemByDay(items,day){
-  return items.filter(item => item.start)
-}*/
-
-const Day = ({date,currentDate}) => (
-   <div className={date.isSame(currentDate,"day") ? "rpl-body-daylist-day--current" : "rpl-body-daylist-day"}></div>
-)
 
 
-
-
-
-
-
-const DayListContainer = ({items,linekey,startDate,days}) => {
-
-  const color = tinycolor(linekey.color);
-
-  const colors = {
-    border : color.toString(),
-    background : color.setAlpha(.5).toRgbString()
+class DayListContainer extends Component {
+  constructor(props){
+    super(props)
+    this.checkSideBarOverlaps = this.checkSideBarOverlaps.bind(this)
   }
+  checkSideBarOverlaps(layout, oldLayoutItem, layoutItem, placeholder){
+    if(layoutItem.x<=1){
+      layoutItem.x=1;
+      placeholder.x=1;
+    }
+  }
+  render(){
 
-  const layout = [{
-        i:linekey.title,
-        x:0,
-        y:0,
-        w:1,
-        h:1,
-        maxH:1,
-        static: true
-        }].concat(items
-              .filter(item => moment(item.start).isSame(startDate,"week"))
-              .map((item,index) => {
-                const startDay = days.findIndex(day => day.isSame(item.start,"day"))
-                const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
+    const {items,linekey,startDate,days} = this.props;
+    const color = tinycolor(linekey.color);
 
-                return {
-                  i:linekey.title+index,
-                  data:item,
-                  x:startDay+1,
-                  y:0,
-                  w:endDay === -1 ? (7-startDay) : (endDay - startDay + 1),
-                  h:1,
-                  maxH:1
+      const colors = {
+        border : color.toString(),
+        background : color.setAlpha(.5).toRgbString()
+    }
+    const layout = [{
+          i:linekey.title,
+          x:0,
+          y:0,
+          w:1,
+          h:1,
+          maxH:1,
+          static: true
+          }].concat(items
+                .filter(item => moment(item.start).isSame(startDate,"week"))
+                .map((item,index) => {
+                  const startDay = days.findIndex(day => day.isSame(item.start,"day"))
+                  const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
+
+                  return {
+                    i:linekey.title+index,
+                    data:item,
+                    x:startDay+1,
+                    y:0,
+                    w:endDay === -1 ? (7-startDay) : (endDay - startDay + 1),
+                    h:1,
+                    maxH:1
+                  }
                 }
-              }
-          ))
-  return (
-      <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={36} margin={[0,0]} >
-        {
-          layout.map((item,index) => index === 0 ?
+            ))
+    return (
+        <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={36} margin={[0,0]}
+        onDrag={this.checkSideBarOverlaps}>
+          {
+            layout.map((item,index) => index === 0 ?
 
-            <div key={item.i}>{linekey.title}</div> :
+              <div key={item.i} className="rpl-sidebar-item">{linekey.title}</div> :
 
-            <div style={Object.assign({},itemStyle,{
-              borderColor:colors.border,
-              background: colors.background
-            })} key={item.i}></div>)
-        }
-      </ReactGridLayoutw>
+              <div style={Object.assign({},itemStyle,{
+                borderColor:colors.border,
+                background: colors.background
+              })} key={item.i}>{item.data.content}</div>)
+          }
+        </ReactGridLayoutw>
 
-  )
+    )
+  }
 
 }
 
@@ -105,7 +105,7 @@ const BodyGrid = (props) => {
     }}>
     {aWeek.map(day => <div key={day} style={{
       boxSizing : "border-box",
-      background: day%2 ? "#fafafa" : "#fcfcfc",
+      background: day%2 ? "#fafafa" : "#f2f2f2",
       position:"absolute",
       height:"100%",
       width: width/8,
@@ -132,14 +132,5 @@ const Body = ({style,keys,startDate,currentDate,items,width}) => {
       </div>
   )
 }
-{/*  <div style={style} className="rpl-body">
-    {
-      keys.map((key,index) => <div key={index}>
 
-        <DayListContainer startDate={startDate} currentDate={currentDate} items={itemsByKey(items,key)} linekey={key}/>
-
-        </div>)
-    }
-  </div>*/}
-
-  export default WidthProvider(Body)
+export default WidthProvider(Body)

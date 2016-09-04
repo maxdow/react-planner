@@ -72,10 +72,15 @@ export class Planner extends Component {
           onWeekSub={() => this.handleTimeChange(false)}
           onWeekAdd={() => this.handleTimeChange(true)}
         />
+
         {/*<SideBar style={sideBarStyle} keys={this.props.keys} />*/}
-        <Body style={bodyStyle} keys={this.props.keys} items={this.props.items}
+
+        <Body style={bodyStyle}
+          keys={this.props.keys}
+          items={this.props.items}
           startDate={this.state.currentStartDate}
           currentDate={this.state.currentDate}/>
+
       </div>
 
 
