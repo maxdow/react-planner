@@ -43,7 +43,7 @@ export class Planner extends Component {
       currentDate:moment(),
       currentStartDate:moment().startOf("week")
     }
-    this.handleTimeChange = this.handleTimeChange.bind(this)
+    // this.handleTimeChange = this.handleTimeChange.bind(this)
   }
   handleTimeChange(isAdd){
     const time = this.state.currentStartDate.clone() ;
@@ -51,6 +51,11 @@ export class Planner extends Component {
 
     this.setState({
       currentStartDate : newTime.startOf("week")
+    })
+  }
+  handleMoveToday(){
+    this.setState({
+      currentStartDate : moment().startOf("week")
     })
   }
   render(){
@@ -69,8 +74,9 @@ export class Planner extends Component {
           style={headerStyle}
           startDate={this.state.currentStartDate}
           currentDate={this.state.currentDate}
-          onWeekSub={() => this.handleTimeChange(false)}
-          onWeekAdd={() => this.handleTimeChange(true)}
+          onWeekSub={this.handleTimeChange.bind(this,false)}
+          onWeekAdd={this.handleTimeChange.bind(this,true)}
+          onMoveToday={this.handleMoveToday.bind(this)}
         />
 
         {/*<SideBar style={sideBarStyle} keys={this.props.keys} />*/}
