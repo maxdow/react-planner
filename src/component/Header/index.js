@@ -6,6 +6,8 @@ import "./header.css"
 
 const aWeek = [0,1,2,3,4,5,6];
 
+//const Day = ({day,skin}) => <div className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"} key={day.i}>{day.title}</div>
+
 export const DayList = ({startDate, currentDate}) => {
   const layout = aWeek.map((day) => {
     const newDate = startDate.clone().add(day,"d");
@@ -21,27 +23,38 @@ export const DayList = ({startDate, currentDate}) => {
     }
 
   })
+
+
   return (
   <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={36} margin={[0,0]} >
-    {layout.map(day => <div className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"} key={day.i}>{day.title}</div> )}
+    {layout.map(day => <div key={day.i}
+      className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"}>
+      {day.title}
+    </div> )}
   </ReactGridLayoutw>
   )
+
 }
 
-const Controls = ({startDate,onWeekSub,onWeekAdd}) => (
+const Controls = ({startDate,onWeekSub,onWeekAdd,onMoveToday}) => (
   <div className="rpl-header-controls">
-    <button className="rpl-header-controls-button" onClick={onWeekSub}>-</button>
-    {`${startDate.format("MMMM")} ${startDate.year()}`} - Semaine {startDate.week()}
-    <button className="rpl-header-controls-button" onClick={onWeekAdd}>+</button>
+    <button className="rpl-header-controls-button" onClick={onWeekSub}>{"<"}</button>
+    <div className="rpl-header-controls-title">{`${startDate.format("MMMM")} ${startDate.year()}`} - Semaine {startDate.week()}</div>
+    <button className="rpl-header-controls-button" onClick={onWeekAdd}>{">"}</button>
+    <button onClick={onMoveToday}>Today</button>
   </div>
 )
 
-export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,style}) => (
-  <div style={style} className="rpl-header">
+export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,onMoveToday,style}) => {
+  const events = {onMoveToday,onWeekAdd,onWeekSub} ;
+  return (
+    <div style={style} className="rpl-header">
 
-    <Controls startDate={startDate} onWeekAdd={onWeekAdd} onWeekSub={onWeekSub} />
+        <Controls startDate={startDate} {...events} />
 
-    <DayList startDate={startDate} currentDate={currentDate}/>
+        <DayList startDate={startDate} currentDate={currentDate} />
 
-  </div>
-)
+    </div>
+
+  )
+}

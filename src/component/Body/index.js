@@ -93,8 +93,7 @@ class DayListContainer extends Component {
 }
 
 /*TODO filterItemByWeek before sending to the body component*/
-const BodyGrid = (props) => {
-  const {width} = props;
+const BodyGrid = ({width,currentDate,startDate}) => {
   return (
     <div className="rpl-body-grid-line" style={{
       // opacity : mounted ? 1 : 0,
@@ -103,15 +102,22 @@ const BodyGrid = (props) => {
       width : width,
       height : "100%"
     }}>
-    {aWeek.map(day => <div key={day} style={{
-      boxSizing : "border-box",
-      background: day%2 ? "#fafafa" : "#f2f2f2",
-      position:"absolute",
-      height:"100%",
-      width: width/8,
-      left:(day+1)*width/8,
-      borderRight:"1px solid #888"
-    }}></div>)}
+    {aWeek.map(day => {
+      const newDate = startDate.clone().add(day,"d");
+      const isToday = newDate.isSame(currentDate,"day");
+      return (
+        <div key={day} style={{
+          boxSizing : "border-box",
+          background: isToday ? "#d4d6e8" : day%2 ? "#fff" : "#f2f2f2",
+          position:"absolute",
+          height:"100%",
+          width: width/8,
+          left:(day+1)*width/8,
+          borderRight:"1px solid #888"
+        }}>
+        </div>)
+    })
+    }
     </div>
   )
 }
@@ -121,9 +127,9 @@ const Body = ({style,keys,startDate,currentDate,items,width}) => {
   const days = aWeek.map(nDay => startDate.clone().add(nDay,"d"));
   return (
       <div style={style} className="rpl-body">
-      <BodyGrid width={width}/>
+      <BodyGrid width={width} currentDate={currentDate} startDate={startDate} />
       {
-        keys.map((key,index) => <div key={index} /*style={{background : index%2 ? "#dedede" : "#efefef",position:"relative"}}*/>
+        keys.map((key,index) => <div key={index} /*style={{borderBottom : "1px solid #888",zIndex:100}}*/>
           <DayListContainer style={{paddingTop : 2}} startDate={startDate} currentDate={currentDate} items={itemsByKey(items,key)} linekey={key} days={days} width={0}/>
 
           </div>)

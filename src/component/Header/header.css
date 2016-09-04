@@ -11,17 +11,24 @@
 
 
 .rpl-header-daylist-day {
-  background:#aeb6f7;
+  box-sizing: border-box;
+  background:#dbdfff;
   text-align: center;
-  border : 1px solid #888;
-}
-
-/*.rpl-header-daylist-day:first-child{
+  border-top : 1px solid #888;
   border-left : 1px solid #888;
 }
-*/
+.rpl-header-daylist-day:first-letter {
+  text-transform: uppercase;
+}
+
+.rpl-header-daylist-day:first-child{
+
+  /*border-right : 1px solid #888;*/
+}
+
 .rpl-header-daylist-day--current {
-  background: #aaa;
+  background: #626788;
+  color : #eee;
 }
 
 .rpl-header-controls {
@@ -31,4 +38,11 @@
 
 .rpl-header-controls-button {
   margin : 0 2px;
+}
+.rpl-header-controls-title {
+  display: inline-block;
+  width: 300px;
+}
+.rpl-header-controls-title:first-letter {
+  text-transform: uppercase;
 }

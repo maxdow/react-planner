@@ -22,7 +22,7 @@ const items = [
 ]
 
 const config = {
-  weekend : true
+  weekendMask : true
 }
 
 const props = {
@@ -30,6 +30,9 @@ const props = {
   items,
   config
 }
+
+
+
 
 ReactDOM.render(
   <AppContainer>
