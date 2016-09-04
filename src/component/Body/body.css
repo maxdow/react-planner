@@ -23,11 +23,10 @@
 }
 
 .rpl-body-daylist-day--current {
-  background: #fafafa;
+  background: #ffca79;
 }
 
 .rpl-body-grid-line {
-
 }
 
 .rpl-sidebar-item {
@@ -35,6 +34,10 @@
   background : #eee;
   height:100%!important;
 }
+.rpl-body .react-grid-layout {
+  border-bottom: 1px solid #aaa
+}
+
 .react-grid-item.react-grid-placeholder {
   background : #888;
 }

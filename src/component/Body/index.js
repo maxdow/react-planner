@@ -123,7 +123,7 @@ const Body = ({style,keys,startDate,currentDate,items,width}) => {
       <div style={style} className="rpl-body">
       <BodyGrid width={width}/>
       {
-        keys.map((key,index) => <div key={index} /*style={{background : index%2 ? "#dedede" : "#efefef",position:"relative"}}*/>
+        keys.map((key,index) => <div key={index} /*style={{borderBottom : "1px solid #888",zIndex:100}}*/>
           <DayListContainer style={{paddingTop : 2}} startDate={startDate} currentDate={currentDate} items={itemsByKey(items,key)} linekey={key} days={days} width={0}/>
 
           </div>)
