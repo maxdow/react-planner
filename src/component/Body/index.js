@@ -78,12 +78,12 @@ class DayListContainer extends Component {
           {
             layout.map((item,index) => index === 0 ?
 
-              <div key={item.i}>{linekey.title}</div> :
+              <div key={item.i} className="rpl-sidebar-item">{linekey.title}</div> :
 
               <div style={Object.assign({},itemStyle,{
                 borderColor:colors.border,
                 background: colors.background
-              })} key={item.i}></div>)
+              })} key={item.i}>{item.data.content}</div>)
           }
         </ReactGridLayoutw>
 
@@ -105,7 +105,7 @@ const BodyGrid = (props) => {
     }}>
     {aWeek.map(day => <div key={day} style={{
       boxSizing : "border-box",
-      background: day%2 ? "#fafafa" : "#fcfcfc",
+      background: day%2 ? "#fafafa" : "#f2f2f2",
       position:"absolute",
       height:"100%",
       width: width/8,
