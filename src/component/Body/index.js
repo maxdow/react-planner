@@ -92,6 +92,14 @@ class DayListContainer extends Component {
 
 }
 
+
+const dayColors = {
+  today : "#d4d6e8",
+  day: "#fff",
+  alternate: "#f2f2f2",
+  weekend: "rgba(6,6,6,0.5)"
+}
+
 /*TODO filterItemByWeek before sending to the body component*/
 const BodyGrid = ({width,currentDate,startDate}) => {
   return (
@@ -102,13 +110,18 @@ const BodyGrid = ({width,currentDate,startDate}) => {
       width : width,
       height : "100%"
     }}>
-    {aWeek.map(day => {
+    {[0,1,2,3,4,5,6,7].map(day => {
       const newDate = startDate.clone().add(day,"d");
       const isToday = newDate.isSame(currentDate,"day");
+      // const isWeekend = () => newDate.day() === 0 || newDate.day() === 6 ;
+      // console.log(day,newDate.format("DD"),newDate.day(),isWeekend())
       return (
         <div key={day} style={{
           boxSizing : "border-box",
-          background: day === 0 ? "#" : isToday ? "#d4d6e8" : day%2 ? "#fff" : "#f2f2f2",
+          background: day === 0 ? "#fff" :
+                      isToday ? dayColors.today :
+                      day === 6 || day === 7 ? dayColors.weekend :
+                      day%2 ? dayColors.day : dayColors.alternate,
           position:"absolute",
           height:"100%",
           width: width/8,
