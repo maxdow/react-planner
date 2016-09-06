@@ -35,18 +35,23 @@ class DayListContainer extends Component {
   checkSideBarOverlaps(layout, oldLayoutItem, layoutItem, placeholder){
     if(layoutItem.x<=1){
       layoutItem.x=1;
-      placeholder.x=1;
+      layoutItem.y=0;
+      if(placeholder){
+        placeholder.x=1;
+      }
     }
+
   }
   render(){
 
     const {items,linekey,startDate,days} = this.props;
     const color = tinycolor(linekey.color);
 
-      const colors = {
-        border : color.toString(),
-        background : color.setAlpha(.5).toRgbString()
+    const colors = {
+      border : color.toString(),
+      background : color.setAlpha(.5).toRgbString()
     }
+
     const layout = [{
           i:linekey.title,
           x:0,
@@ -74,7 +79,7 @@ class DayListContainer extends Component {
             ))
     return (
         <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={44} margin={[4,4]}
-        onDrag={this.checkSideBarOverlaps}>
+        onDrag={this.checkSideBarOverlaps} onDragStop={this.checkSideBarOverlaps}>
           {
             layout.map((item,index) => index === 0 ?
 
