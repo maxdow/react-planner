@@ -67,7 +67,7 @@ export class DayListContainer extends Component {
                   const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
 
                   return {
-                    i:linekey.title+index,
+                    i:item.id+"",
                     data:item,
                     x:startDay+1,
                     y:0,
