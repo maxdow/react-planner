@@ -4,8 +4,9 @@ const dayColors = {
   today : "#d4d6e8",
   day: "#fff",
   alternate: "#f2f2f2",
-  weekend: "rgba(6,6,6,0.5)"
+  weekend: "rgba(6,6,6,0.2)"
 }
+const aWeek = [0,1,2,3,4,5,6,7] ;
 
 export const BodyGrid = ({width,currentDate,startDate}) => {
   return (
@@ -16,11 +17,10 @@ export const BodyGrid = ({width,currentDate,startDate}) => {
       width : width,
       height : "100%"
     }}>
-    {[0,1,2,3,4,5,6,7].map(day => {
+    {aWeek.map(day => {
       const newDate = startDate.clone().add(day,"d");
       const isToday = newDate.isSame(currentDate,"day");
-      // const isWeekend = () => newDate.day() === 0 || newDate.day() === 6 ;
-      // console.log(day,newDate.format("DD"),newDate.day(),isWeekend())
+
       return (
         <div key={day} style={{
           boxSizing : "border-box",
