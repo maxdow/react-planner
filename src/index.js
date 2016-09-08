@@ -15,10 +15,10 @@ const keys = [
   {id : 3,title:"module 3",color:"green"}
 ]
 const items = [
-  {id : 1 ,key:1,start:new Date(2016,7,29,9),end:new Date(2016,7,30,19),content:"Session 1 - Lieux 1 - Formateur 1"},
-  {id : 2 ,key:1,start:new Date(2016,7,31,9),end:new Date(2016,8,8,19),content:"Session 2 - Lieux 1 - Formateur 1"},
-  {id : 3 ,key:2,start:new Date(2016,7,30,9),end:new Date(2016,7,30,19)},
-  {id : 4 ,key:3,start:new Date(2016,7,31,9),end:new Date(2016,8,3,19)}
+  {id : 1 ,key:1,start:moment().toDate(),end:moment().add(1,"d").toDate(),content:"Session 1 - Lieux 1 - Formateur 1"},
+  {id : 2 ,key:1,start:moment().add(-1,"d").toDate(),end:moment().add(1,"d").toDate(),content:"Session 2 - Lieux 1 - Formateur 1"},
+  {id : 3 ,key:2,start:moment().add(-2,"d").toDate(),end:moment().toDate()},
+  {id : 4 ,key:3,start:moment().toDate(),end:moment().add(2,"d").toDate()}
 ]
 
 const config = {
