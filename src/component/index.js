@@ -72,6 +72,7 @@ export class Planner extends Component {
 
       <div style={bodyContainerStyle}>
         <Header
+          headerTitle={this.props.headerTitle}
           style={headerStyle}
           startDate={this.state.currentStartDate}
           currentDate={this.state.currentDate}

@@ -8,21 +8,30 @@ const aWeek = [0,1,2,3,4,5,6];
 
 //const Day = ({day,skin}) => <div className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"} key={day.i}>{day.title}</div>
 
-export const DayList = ({startDate, currentDate}) => {
-  const layout = aWeek.map((day) => {
-    const newDate = startDate.clone().add(day,"d");
-    return {
-      i:day.toString(),
-      title:newDate.format("dddd D"),
-      isToday:newDate.isSame(currentDate,"day"),
-      x:day+1,
+export const DayList = ({startDate, currentDate,headerTitle=""}) => {
+  const layout = [{
+      i:"0.0",
+      title:headerTitle,
+      x:0,
       y:0,
       w:1,
       h:1,
       static:true
-    }
-
-  })
+    }].concat(
+      aWeek.map((day) => {
+        const newDate = startDate.clone().add(day,"d");
+          return {
+            i:day.toString(),
+            title:newDate.format("dddd D"),
+            isToday:newDate.isSame(currentDate,"day"),
+            x:day+1,
+            y:0,
+            w:1,
+            h:1,
+            static:true
+          }
+      })
+    )
 
 
   return (
@@ -45,14 +54,14 @@ const Controls = ({startDate,onWeekSub,onWeekAdd,onMoveToday}) => (
   </div>
 )
 
-export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,onMoveToday,style}) => {
+export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,onMoveToday,style,headerTitle}) => {
   const events = {onMoveToday,onWeekAdd,onWeekSub} ;
   return (
     <div style={style} className="rpl-header">
 
         <Controls startDate={startDate} {...events} />
 
-        <DayList startDate={startDate} currentDate={currentDate} />
+        <DayList startDate={startDate} currentDate={currentDate} headerTitle={headerTitle}/>
 
     </div>
 

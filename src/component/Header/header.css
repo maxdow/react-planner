@@ -23,7 +23,7 @@
 
 .rpl-header-daylist-day:first-child{
 
-  /*border-right : 1px solid #888;*/
+  background: transparent;
 }
 
 .rpl-header-daylist-day--current {
