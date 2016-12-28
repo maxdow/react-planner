@@ -91,7 +91,9 @@ export class DayListContainer extends Component {
         <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={44} margin={[4,4]}
         onDragStart={checkSideBarOverlaps}
         onDrag={checkSideBarOverlaps}
-        onDragStop={this.handleDragStop}>
+        onDragStop={this.handleDragStop}
+        onResizeStop={this.handleDragStop}
+        >
           {
             layout.map((item,index) => index === 0 ?
 
