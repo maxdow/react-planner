@@ -19,6 +19,16 @@ const itemStyle = {
   // top:"0.3em"
 }
 
+const layoutEventToPlannerEvent = (layoutEvent,{items,linekey,startDate,days}) => {
+  const {x,w,i} = layoutEvent;
+  const newStart = moment(startDate).clone().add(x-1,"d")
+  return {
+    indexItem : i,
+    key:linekey,
+    start : newStart.toDate(),
+    end : newStart.add(w,"d").toDate()
+  }
+}
 
 const checkSideBarOverlaps = (layout, oldLayoutItem, layoutItem, placeholder) => {
     if(layoutItem.x<=1){
@@ -38,8 +48,9 @@ export class DayListContainer extends Component {
 
   handleDragStop(layout, oldLayoutItem, layoutItem, placeholder){
     checkSideBarOverlaps(layout, oldLayoutItem, layoutItem, placeholder);
-
-    console.log("Item déplacé",layoutItem);
+    if(this.props.onItemMove) {
+      this.props.onItemMove(layoutEventToPlannerEvent(layoutItem,this.props))
+    }
   }
   render(){
 

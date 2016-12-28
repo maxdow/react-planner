@@ -28,7 +28,8 @@ const config = {
 const props = {
   keys,
   items,
-  config
+  config,
+  onItemMove : (itemMoveEvent) => console.log("Item move Event",itemMoveEvent)
 }
 
 
