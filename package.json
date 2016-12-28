@@ -1,17 +1,17 @@
 {
-  "name": "minimal-webpack-boilerplate",
-  "version": "1.0.0",
-  "description": "",
+  "name": "react-planner",
+  "version": "0.0.1",
+  "description": "A planner for react",
   "main": "index.js",
   "scripts": {
     "build": "webpack --config conf/webpack.config",
     "dev": " npm run build && webpack-dev-server --config conf/webpack.config --port 3000 --hot --inline --colors"
   },
   "keywords": [
-    "boilerplate",
-    "webpack",
-    "setup",
-    "template"
+    "planner",
+    "schedule",
+    "component",
+    "react"
   ],
   "author": "Maxime Warnier",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "react-dom": "^15.3.1",
     "react-hot-loader": "3.0.0-beta.2",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.1",
+    "webpack": "2",
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
