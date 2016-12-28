@@ -86,10 +86,10 @@ export class DayListContainer extends Component {
 
               <div key={item.i} className="rpl-sidebar-item">{linekey.title}</div> :
 
-              <div style={Object.assign({},itemStyle,{
-                borderColor:colors.border,
-                background: colors.background
-              })} key={item.i}>{item.data.content}</div>)
+              <div style={{...itemStyle,borderColor:colors.border,background: colors.background}} key={item.i}>
+                {item.data.content}
+              </div>
+            )
           }
         </ReactGridLayoutw>
 
