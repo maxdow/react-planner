@@ -20,13 +20,7 @@ const itemStyle = {
 }
 
 
-export class DayListContainer extends Component {
-  constructor(props){
-    super(props)
-    this.checkSideBarOverlaps = this.checkSideBarOverlaps.bind(this)
-    this.handleDragStop = this.handleDragStop.bind(this)
-  }
-  checkSideBarOverlaps(layout, oldLayoutItem, layoutItem, placeholder){
+const checkSideBarOverlaps = (layout, oldLayoutItem, layoutItem, placeholder) => {
     if(layoutItem.x<=1){
       layoutItem.x=1;
       layoutItem.y=0;
@@ -34,11 +28,16 @@ export class DayListContainer extends Component {
         placeholder.x=1;
       }
     }
+}
 
+export class DayListContainer extends Component {
+  constructor(props){
+    super(props)
+    this.handleDragStop = this.handleDragStop.bind(this)
   }
 
   handleDragStop(layout, oldLayoutItem, layoutItem, placeholder){
-    this.checkSideBarOverlaps(layout, oldLayoutItem, layoutItem, placeholder);
+    checkSideBarOverlaps(layout, oldLayoutItem, layoutItem, placeholder);
 
     console.log("Item déplacé",layoutItem);
   }
@@ -79,8 +78,8 @@ export class DayListContainer extends Component {
             ))
     return (
         <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={44} margin={[4,4]}
-        onDragStart={this.checkSideBarOverlaps}
-        onDrag={this.checkSideBarOverlaps}
+        onDragStart={checkSideBarOverlaps}
+        onDrag={checkSideBarOverlaps}
         onDragStop={this.handleDragStop}>
           {
             layout.map((item,index) => index === 0 ?
