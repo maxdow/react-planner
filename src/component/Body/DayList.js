@@ -12,7 +12,7 @@ const itemStyle = {
   boxSizing : "border-box",
   background: "rgba(0,0,0,0.5)",
   border : "2px solid #000",
-  borderRadius: "5px"//,
+  // borderRadius: "5px"//,
   // height:"1.4em",
   //position: "absolute",
   //left:0,
@@ -99,7 +99,7 @@ export class DayListContainer extends Component {
 
               <div key={item.i} className="rpl-sidebar-item">{linekey.title}</div> :
 
-              <div style={{...itemStyle,borderColor:colors.border,background: colors.background}} key={item.i}>
+              <div style={{...itemStyle,borderColor:colors.border,background: colors.background,borderLeft : "8px solid "+colors.border}} key={item.i}>
                 {item.data.content}
               </div>
             )
