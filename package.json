@@ -2,7 +2,7 @@
   "name": "react-planner",
   "version": "0.0.1",
   "description": "A planner for react",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "build": "webpack --config conf/webpack.config",
     "start": "node server"
