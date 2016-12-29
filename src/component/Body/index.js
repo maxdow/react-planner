@@ -22,7 +22,7 @@ function itemsByKey(items,key){
 /*TODO filterItemByWeek before sending to the body component*/
 
 
-const Body = ({style,keys,startDate,currentDate,items,width,onItemMove}) => {
+const Body = ({style,keys,startDate,currentDate,items,width,onItemMove,onItemSelect}) => {
 
   const days = aWeek.map(nDay => startDate.clone().add(nDay,"d"));
   return (
@@ -39,6 +39,7 @@ const Body = ({style,keys,startDate,currentDate,items,width,onItemMove}) => {
                             days={days}
                             width={0}
                             onItemMove={onItemMove}
+                            onItemSelect={onItemSelect}
           />
         </div>
         )

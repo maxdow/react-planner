@@ -1,4 +1,5 @@
 import React,{Component} from "react"
+import isEqual from "lodash.isequal"
 import tinycolor from "tinycolor2"
 import moment from "moment"
 import "react-grid-layout/css/styles.css"
@@ -48,7 +49,9 @@ export class DayListContainer extends Component {
 
   handleDragStop(layout, oldLayoutItem, layoutItem, placeholder){
     checkSideBarOverlaps(layout, oldLayoutItem, layoutItem, placeholder);
-    if(this.props.onItemMove) {
+    if(isEqual(oldLayoutItem,layoutItem) && this.props.onItemSelect){
+      this.props.onItemSelect(layoutEventToPlannerEvent(layoutItem,this.props))
+    } else if(this.props.onItemMove) {
       this.props.onItemMove(layoutEventToPlannerEvent(layoutItem,this.props))
     }
   }

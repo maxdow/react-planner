@@ -89,6 +89,7 @@ export class Planner extends Component {
           startDate={this.state.currentStartDate}
           currentDate={this.state.currentDate}
           onItemMove={this.props.onItemMove}
+          onItemSelect={this.props.onItemSelect}
         />
 
       </div>

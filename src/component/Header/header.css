@@ -22,7 +22,7 @@
 }
 
 .rpl-header-daylist-day:first-child{
-
+  border-left: none;
   background: transparent;
 }
 

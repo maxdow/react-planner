@@ -29,7 +29,8 @@ const props = {
   keys,
   items,
   config,
-  onItemMove : (itemMoveEvent) => console.log("Item move Event",itemMoveEvent),
+  onItemMove : (event) => console.log("Item move Event",event),
+  onItemSelect : (event) => console.log("Item select Event",event),
   headerTitle : "Modules"
 }
 
