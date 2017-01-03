@@ -1,6 +1,9 @@
+const path = require("path");
+
+const sourceFolder = path.resolve(__dirname, "../src");
+
 module.exports = [{
       test: /\.js$/,
-      exclude: /node_modules/,
       loader: "babel-loader"
     },
     {test: /\.css$/, loader: 'style-loader!css-loader'}

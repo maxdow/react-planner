@@ -2,10 +2,11 @@
   "name": "react-planner",
   "version": "0.0.1",
   "description": "A planner for react",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "webpack --config conf/webpack.config",
-    "start": "node server"
+    "start": "node server",
+    "package": "webpack --config conf/webpack.prod.config"
   },
   "keywords": [
     "planner",

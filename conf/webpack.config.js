@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const loaders = require("./loaders.js");
 
 const sourceFolder = path.resolve(__dirname, "../src");
-const outputFolder = path.resolve(__dirname, "../dist");
+const outputFolder = path.resolve(__dirname, "../public");
 const templateIndex = path.resolve(__dirname, "../src/index.html");
 
 
