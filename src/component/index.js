@@ -44,7 +44,7 @@ export class Planner extends Component {
       currentStartDate:moment().startOf("week")
     }
 
-    // this.handleTimeChange = this.handleTimeChange.bind(this)
+    this.decorateItemEvent = this.decorateItemEvent.bind(this)
   }
   handleTimeChange(isAdd){
     const time = this.state.currentStartDate.clone() ;
@@ -57,6 +57,13 @@ export class Planner extends Component {
   handleMoveToday(){
     this.setState({
       currentStartDate : moment().startOf("week")
+    })
+  }
+  decorateItemEvent(cb) {
+    return (event) => cb({
+      item : this.props.items[event.itemId],
+      start : event.start,
+      end : event.end
     })
   }
   render(){
@@ -88,8 +95,8 @@ export class Planner extends Component {
           items={this.props.items}
           startDate={this.state.currentStartDate}
           currentDate={this.state.currentDate}
-          onItemMove={this.props.onItemMove}
-          onItemSelect={this.props.onItemSelect}
+          onItemMove={this.decorateItemEvent(this.props.onItemMove)}
+          onItemSelect={this.decorateItemEvent(this.props.onItemSelect)}
         />
 
       </div>

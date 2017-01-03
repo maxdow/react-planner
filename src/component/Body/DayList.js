@@ -24,8 +24,7 @@ const layoutEventToPlannerEvent = (layoutEvent,{items,linekey,startDate,days}) =
   const {x,w,i} = layoutEvent;
   const newStart = moment(startDate).clone().add(x-1,"d")
   return {
-    indexItem : i,
-    key:linekey,
+    itemId : i,
     start : newStart.toDate(),
     end : newStart.add(w,"d").toDate()
   }
@@ -75,7 +74,7 @@ export class DayListContainer extends Component {
           static: true
           }].concat(items
                 .filter(item => moment(item.start).isSame(startDate,"week"))
-                .map((item,index) => {
+                .map((item) => {
                   const startDay = days.findIndex(day => day.isSame(item.start,"day"))
                   const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
 
