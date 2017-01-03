@@ -1,6 +1,6 @@
 {
   "name": "react-planner",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A planner for react",
   "main": "dist/index.js",
   "scripts": {
