@@ -60,11 +60,11 @@ export class Planner extends Component {
     })
   }
   decorateItemEvent(cb) {
-    return (event) => cb({
-      item : this.props.items[event.itemId],
+    return (event) => cb ? cb({
+      item : this.props.items.find(item => item.id == event.itemId),
       start : event.start,
       end : event.end
-    })
+    }) : null
   }
   render(){
     return (
