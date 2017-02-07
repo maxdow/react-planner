@@ -10,7 +10,7 @@ const node = document.getElementById("planner");
 moment.locale("fr");
 
 const keys = [
-  {id : 1,title:"module 1",color:"orange"},
+  {id : 1,title:"module 1",color:"orange",folder:true},
   {id : 2,title:"module 2",color:"blue"},
   {id : 3,title:"module 3",color:"green"}
 ]

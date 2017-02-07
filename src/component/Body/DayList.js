@@ -1,7 +1,11 @@
 import React,{Component} from "react"
 import isEqual from "lodash.isequal"
 import tinycolor from "tinycolor2"
+
 import moment from "moment"
+
+import isSameWeek from "date-fns/is_same_week"
+
 import "react-grid-layout/css/styles.css"
 
 import ReactGridLayout,{WidthProvider} from "react-grid-layout";
@@ -40,6 +44,10 @@ const checkSideBarOverlaps = (layout, oldLayoutItem, layoutItem, placeholder) =>
     }
 }
 
+const itemsInWeek = (items,startDate) => items.some(item => isSameWeek(item.start,startDate.toDate(),{weekStartsOn:1}))
+
+// console.log(items,startDate)
+
 export class DayListContainer extends Component {
   constructor(props){
     super(props)
@@ -75,6 +83,7 @@ export class DayListContainer extends Component {
           }].concat(items
                 .filter(item => moment(item.start).isSame(startDate,"week"))
                 .map((item) => {
+
                   const startDay = days.findIndex(day => day.isSame(item.start,"day"))
                   const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
 
@@ -89,8 +98,7 @@ export class DayListContainer extends Component {
                   }
                 }
             ))
-    return (
-        <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={44} margin={[4,4]}
+    return itemsInWeek(items,startDate) ? <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={30} margin={[4,4]}
         onDragStart={checkSideBarOverlaps}
         onDrag={checkSideBarOverlaps}
         onDragStop={this.handleDragStop}
@@ -106,9 +114,7 @@ export class DayListContainer extends Component {
               </div>
             )
           }
-        </ReactGridLayoutw>
-
-    )
+        </ReactGridLayoutw> : null
   }
 
 }

@@ -33,9 +33,10 @@
     "webpack-dev-server": "2.2.0-rc.0"
   },
   "dependencies": {
-    "react": "^15.3.1",
+    "date-fns": "^1.27.2",
     "lodash.isequal": "^4.4.0",
     "moment": "^2.14.1",
+    "react": "^15.3.1",
     "react-grid-layout": "^0.13.3",
     "tinycolor2": "^1.4.1"
   }
