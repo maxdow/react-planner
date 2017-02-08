@@ -4,7 +4,7 @@ import addDays from "date-fns/add_days"
 
 
 import {BodyGrid} from "./BodyGrid"
-import {DayListContainer} from "./DayList"
+import {DayListBody} from "./DayList"
 
 import "react-resizable/css/styles.css"
 import "./body.css"
@@ -23,7 +23,7 @@ function itemsByKey(items,key){
 /*TODO filterItemByWeek before sending to the body component*/
 
 
-const Body = ({style,keys,startDate,currentDate,items,width,onItemMove,onItemSelect}) => {
+const Body = ({style,keys,startDate,currentDate,items,width,onItemMove,onItemSelect,config}) => {
 
   const days = aWeek.map(nDay => addDays(startDate,nDay))
   return (
@@ -32,15 +32,16 @@ const Body = ({style,keys,startDate,currentDate,items,width,onItemMove,onItemSel
 
       {keys.map((key,index) => (
         <div key={index}>
-          <DayListContainer style={{paddingTop : 2}}
-                            startDate={startDate}
-                            currentDate={currentDate}
-                            items={itemsByKey(items,key)}
-                            linekey={key}
-                            days={days}
-                            width={0}
-                            onItemMove={onItemMove}
-                            onItemSelect={onItemSelect}
+          <DayListBody style={{paddingTop : 2}}
+                   config={config}
+                   startDate={startDate}
+                   currentDate={currentDate}
+                   items={itemsByKey(items,key)}
+                   linekey={key}
+                   days={days}
+                   width={0}
+                   onItemMove={onItemMove}
+                   onItemSelect={onItemSelect}
           />
         </div>
         )

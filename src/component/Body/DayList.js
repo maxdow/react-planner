@@ -49,7 +49,7 @@ const dateInWeek = (date,startDate) => isSameWeek(date,startDate,{weekStartsOn:1
 const itemsInWeek = (items,startDate) => items.some(item => isSameWeek(item.start,startDate,{weekStartsOn:1}))
 // console.log(items,startDate)
 
-export class DayListContainer extends Component {
+export class DayListBody extends Component {
   constructor(props){
     super(props)
     this.handleDragStop = this.handleDragStop.bind(this)
@@ -65,7 +65,10 @@ export class DayListContainer extends Component {
   }
   render(){
 
-    const {items,linekey,startDate,days} = this.props;
+    const {items,linekey,startDate,days,config} = this.props;
+
+    const {ItemComponent} = config
+
     const color = tinycolor(linekey.color);
 
     const colors = {
@@ -100,7 +103,6 @@ export class DayListContainer extends Component {
                   }
                 }
             ))
-                  console.log(startDate)
 
     return itemsInWeek(items,startDate) ? <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={30} margin={[4,4]}
         onDragStart={checkSideBarOverlaps}
@@ -114,7 +116,7 @@ export class DayListContainer extends Component {
               <div key={item.i} className="rpl-sidebar-item">{linekey.title}</div> :
 
               <div style={{...itemStyle,borderColor:colors.border,background: colors.background,borderLeft : "8px solid "+colors.border}} key={item.i}>
-                {item.data.content}
+                <ItemComponent />
               </div>
             )
           }
