@@ -1,4 +1,6 @@
 import React from "react"
+import addDays from "date-fns/add_days"
+import isSameDay from "date-fns/is_same_day"
 
 const dayColors = {
   today : "#888",
@@ -16,8 +18,10 @@ export const BodyGrid = ({width,currentDate,startDate}) => {
       height : "100%"
     }}>
     {aWeek.map(day => {
-      const newDate = startDate.clone().add(day-1,"d");
-      const isToday = newDate.isSame(currentDate,"day");
+
+      const newDate = addDays(startDate,day-1);
+
+      const isToday = isSameDay(newDate,currentDate);
 
       return (
         <div key={day} style={{

@@ -2,9 +2,10 @@ import React,{Component} from "react"
 import isEqual from "lodash.isequal"
 import tinycolor from "tinycolor2"
 
-import moment from "moment"
+import addDays from "date-fns/add_days"
 
 import isSameWeek from "date-fns/is_same_week"
+import isSameDay from "date-fns/is_same_day"
 
 import "react-grid-layout/css/styles.css"
 
@@ -26,11 +27,11 @@ const itemStyle = {
 
 const layoutEventToPlannerEvent = (layoutEvent,{items,linekey,startDate,days}) => {
   const {x,w,i} = layoutEvent;
-  const newStart = moment(startDate).clone().add(x-1,"d")
+
   return {
     itemId : i,
-    start : newStart.toDate(),
-    end : newStart.add(w,"d").toDate()
+    start : addDays(startDate,x-1),
+    end : addDays(startDate,x - 1 + w)
   }
 }
 
@@ -44,8 +45,8 @@ const checkSideBarOverlaps = (layout, oldLayoutItem, layoutItem, placeholder) =>
     }
 }
 
-const itemsInWeek = (items,startDate) => items.some(item => isSameWeek(item.start,startDate.toDate(),{weekStartsOn:1}))
-
+const dateInWeek = (date,startDate) => isSameWeek(date,startDate,{weekStartsOn:1})
+const itemsInWeek = (items,startDate) => items.some(item => isSameWeek(item.start,startDate,{weekStartsOn:1}))
 // console.log(items,startDate)
 
 export class DayListContainer extends Component {
@@ -81,11 +82,12 @@ export class DayListContainer extends Component {
           maxH:1,
           static: true
           }].concat(items
-                .filter(item => moment(item.start).isSame(startDate,"week"))
+                .filter(item => dateInWeek(item.start,startDate))
                 .map((item) => {
 
-                  const startDay = days.findIndex(day => day.isSame(item.start,"day"))
-                  const endDay = moment(item.end).isSame(startDate,"week") ? days.findIndex(day => day.isSame(item.end,"day")) : -1
+                  const startDay = days.findIndex(day => isSameDay(day,item.start))
+
+                  const endDay = dateInWeek(item.end,startDate) ? days.findIndex(day => isSameDay(item.end,day)) : -1
 
                   return {
                     i:item.id+"",
@@ -98,6 +100,8 @@ export class DayListContainer extends Component {
                   }
                 }
             ))
+                  console.log(startDate)
+
     return itemsInWeek(items,startDate) ? <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={30} margin={[4,4]}
         onDragStart={checkSideBarOverlaps}
         onDrag={checkSideBarOverlaps}

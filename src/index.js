@@ -22,7 +22,10 @@ const items = [
 ]
 
 const config = {
-  weekendMask : true
+  weekendMask : true,
+  dateControls : true,
+  currentDate : new Date(),
+  currentWeek : new Date()
 }
 
 const props = {

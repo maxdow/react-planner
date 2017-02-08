@@ -2,7 +2,11 @@ import React,{Component} from "react";
 import {Header} from "./Header"
 //import {SideBar} from "./SideBar"
 import Body from "./Body"
-import moment from "moment"
+
+import startOfWeek from "date-fns/start_of_week"
+import addWeeks from "date-fns/add_weeks"
+
+
 const mainContainerStyle = {
   display: "flex",
   flexDirection: "column"
@@ -39,24 +43,30 @@ const bodyStyle = {
 export class Planner extends Component {
   constructor(props){
     super(props)
+
+    const {conf={}} = props
+
     this.state = {
-      currentDate:moment(),
-      currentStartDate:moment().startOf("week")
+      currentDate:conf.currentDate || new Date(),
+      currentStartDate: startOfWeek(conf.currentWeek || new Date(),{weekStartsOn:1})
     }
 
     this.decorateItemEvent = this.decorateItemEvent.bind(this)
   }
   handleTimeChange(isAdd){
-    const time = this.state.currentStartDate.clone() ;
-    const newTime = isAdd ? time.add(1,"w") : time.subtract(1,"w");
 
     this.setState({
-      currentStartDate : newTime.startOf("week")
+      currentStartDate : startOfWeek(
+                          addWeeks(this.state.currentStartDate,
+                                      isAdd ? 1:-1
+                                  )
+                         ,{weekStartsOn:1})
     })
+
   }
   handleMoveToday(){
     this.setState({
-      currentStartDate : moment().startOf("week")
+      currentStartDate : startOfWeek(new Date())
     })
   }
   decorateItemEvent(cb) {
@@ -67,18 +77,13 @@ export class Planner extends Component {
     }) : null
   }
   render(){
+    const {config} = this.props
     return (
       <div style={mainContainerStyle}>
 
-
-      {/*<div style={headContainerStyle}>
-
-        <div style={filterStyle}>filter</div>
-
-      </div>*/}
-
       <div style={bodyContainerStyle}>
-        <Header
+
+       {config.dateControls ? <Header
           headerTitle={this.props.headerTitle}
           style={headerStyle}
           startDate={this.state.currentStartDate}
@@ -86,7 +91,7 @@ export class Planner extends Component {
           onWeekSub={this.handleTimeChange.bind(this,false)}
           onWeekAdd={this.handleTimeChange.bind(this,true)}
           onMoveToday={this.handleMoveToday.bind(this)}
-        />
+       /> : null }
 
         {/*<SideBar style={sideBarStyle} keys={this.props.keys} />*/}
 

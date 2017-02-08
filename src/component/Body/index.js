@@ -1,5 +1,6 @@
 import React from "react"
 import {WidthProvider} from "react-grid-layout";
+import addDays from "date-fns/add_days"
 
 
 import {BodyGrid} from "./BodyGrid"
@@ -24,7 +25,7 @@ function itemsByKey(items,key){
 
 const Body = ({style,keys,startDate,currentDate,items,width,onItemMove,onItemSelect}) => {
 
-  const days = aWeek.map(nDay => startDate.clone().add(nDay,"d"));
+  const days = aWeek.map(nDay => addDays(startDate,nDay))
   return (
       <div style={style} className="rpl-body">
       <BodyGrid width={width} currentDate={currentDate} startDate={startDate} />
