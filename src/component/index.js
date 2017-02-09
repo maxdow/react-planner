@@ -5,6 +5,7 @@ import Body from "./Body"
 
 import startOfWeek from "date-fns/start_of_week"
 import addWeeks from "date-fns/add_weeks"
+import format from 'date-fns/format'
 
 
 const mainContainerStyle = {
@@ -12,21 +13,8 @@ const mainContainerStyle = {
   flexDirection: "column"
 }
 
-const headContainerStyle = {
-  display: "flex",
-  flex:1
-}
-
 const headerStyle = {
   flex: 1
-}
-
-const filterStyle = {
-  width : 100
-}
-
-const sideBarStyle = {
-  width : 100
 }
 
 const bodyContainerStyle = {
@@ -40,19 +28,41 @@ const bodyStyle = {
 }
 
 
+const itemStyle = {
+  boxSizing : "border-box",
+  background: "rgba(0,0,0,0.5)",
+  border : "2px solid #000",
+  height:"100%"
+}
+
+const DayFormatter = ({date}) => <div>{format(date,"ddd D")}</div>
+const HeaderTitle = () => <div></div>
+const ItemComponent = () => <div style={itemStyle}></div>
+const SideComponent = () => <div></div>
+
+const defaultProps = {
+  currentWeek: new Date(),
+  config: {
+    DayFormatter,
+    HeaderTitle,
+    ItemComponent,
+    SideComponent
+  },
+};
+
+
 export class Planner extends Component {
   constructor(props){
     super(props)
 
-    const {conf={}} = props
-
     this.state = {
-      currentDate:conf.currentDate || new Date(),
-      currentStartDate: startOfWeek(conf.currentWeek || new Date(),{weekStartsOn:1})
+      currentDate:new Date(),
+      currentStartDate: startOfWeek(props.currentWeek || new Date(),{weekStartsOn:1})
     }
 
     this.decorateItemEvent = this.decorateItemEvent.bind(this)
   }
+
   handleTimeChange(isAdd){
 
     this.setState({
@@ -77,21 +87,25 @@ export class Planner extends Component {
     }) : null
   }
   render(){
-    const {config} = this.props
+    const config = {...defaultProps.config,...this.props.config}
+
+
+
     return (
       <div style={mainContainerStyle}>
 
       <div style={bodyContainerStyle}>
 
-       {config.dateControls ? <Header
-          headerTitle={this.props.headerTitle}
+       <Header
           style={headerStyle}
           startDate={this.state.currentStartDate}
           currentDate={this.state.currentDate}
           onWeekSub={this.handleTimeChange.bind(this,false)}
           onWeekAdd={this.handleTimeChange.bind(this,true)}
           onMoveToday={this.handleMoveToday.bind(this)}
-       /> : null }
+
+          config={config}
+       />
 
         {/*<SideBar style={sideBarStyle} keys={this.props.keys} />*/}
 
@@ -102,6 +116,7 @@ export class Planner extends Component {
           currentDate={this.state.currentDate}
           onItemMove={this.decorateItemEvent(this.props.onItemMove)}
           onItemSelect={this.decorateItemEvent(this.props.onItemSelect)}
+          config={config}
         />
 
       </div>
@@ -114,3 +129,6 @@ export class Planner extends Component {
     )
   }
 }
+Planner.defaultProps = {
+  config: {}
+};

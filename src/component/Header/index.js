@@ -10,12 +10,10 @@ import "./header.css"
 
 const aWeek = [0,1,2,3,4,5,6];
 
-//const Day = ({day,skin}) => <div className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"} key={day.i}>{day.title}</div>
 
-export const DayList = ({startDate, currentDate,headerTitle=""}) => {
+export const DayListHeader = ({startDate, currentDate,HeaderTitle,DayFormatter}) => {
   const layout = [{
       i:"0.0",
-      title:headerTitle,
       x:0,
       y:0,
       w:1,
@@ -26,7 +24,7 @@ export const DayList = ({startDate, currentDate,headerTitle=""}) => {
         const newDate = addDays(startDate,day);
           return {
             i:day.toString(),
-            title:format(newDate,"dddd D"),
+            date:newDate,
             isToday:isSameDay(newDate,currentDate),
             x:day+1,
             y:0,
@@ -40,10 +38,15 @@ export const DayList = ({startDate, currentDate,headerTitle=""}) => {
 
   return (
   <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={36} margin={[0,0]} >
-    {layout.map(day => <div key={day.i}
+    {layout.map((day,index) => (
+      <div key={day.i}
       className={day.isToday ? "rpl-header-daylist-day rpl-header-daylist-day--current" : "rpl-header-daylist-day"}>
-      {day.title}
-    </div> )}
+
+      {index === 0 ? <HeaderTitle /> : <DayFormatter date={day.date}/> }
+
+    </div>
+    )
+  )}
   </ReactGridLayoutw>
   )
 
@@ -63,14 +66,20 @@ const Controls = ({startDate,onWeekSub,onWeekAdd,onMoveToday}) => (
   </div>
 )
 
-export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,onMoveToday,style,headerTitle}) => {
+
+
+
+
+
+//TODO events as unique cb "onChange"
+export const Header = ({currentDate,startDate,onWeekSub,onWeekAdd,onMoveToday,style,config}) => {
   const events = {onMoveToday,onWeekAdd,onWeekSub} ;
   return (
     <div style={style} className="rpl-header">
 
-        <Controls startDate={startDate} {...events} />
+        {config.dateControls ? <Controls startDate={startDate} {...events} />: null}
 
-        <DayList startDate={startDate} currentDate={currentDate} headerTitle={headerTitle}/>
+        <DayListHeader startDate={startDate} currentDate={currentDate} HeaderTitle={config.HeaderTitle} DayFormatter={config.DayFormatter}/>
 
     </div>
 

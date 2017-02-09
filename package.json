@@ -1,6 +1,6 @@
 {
   "name": "react-planner",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A planner for react",
   "main": "dist/index.js",
   "scripts": {
@@ -36,7 +36,6 @@
     "date-fns": "^1.27.2",
     "lodash.isequal": "^4.4.0",
     "react": "^15.3.1",
-    "react-grid-layout": "^0.13.3",
-    "tinycolor2": "^1.4.1"
+    "react-grid-layout": "^0.13.3"
   }
 }

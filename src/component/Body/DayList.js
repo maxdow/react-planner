@@ -14,16 +14,7 @@ import ReactGridLayout,{WidthProvider} from "react-grid-layout";
 const ReactGridLayoutw = WidthProvider(ReactGridLayout)
 
 
-const itemStyle = {
-  boxSizing : "border-box",
-  background: "rgba(0,0,0,0.5)",
-  border : "2px solid #000",
-  // borderRadius: "5px"//,
-  // height:"1.4em",
-  //position: "absolute",
-  //left:0,
-  // top:"0.3em"
-}
+
 
 const layoutEventToPlannerEvent = (layoutEvent,{items,linekey,startDate,days}) => {
   const {x,w,i} = layoutEvent;
@@ -49,7 +40,7 @@ const dateInWeek = (date,startDate) => isSameWeek(date,startDate,{weekStartsOn:1
 const itemsInWeek = (items,startDate) => items.some(item => isSameWeek(item.start,startDate,{weekStartsOn:1}))
 // console.log(items,startDate)
 
-export class DayListContainer extends Component {
+export class DayListBody extends Component {
   constructor(props){
     super(props)
     this.handleDragStop = this.handleDragStop.bind(this)
@@ -65,16 +56,12 @@ export class DayListContainer extends Component {
   }
   render(){
 
-    const {items,linekey,startDate,days} = this.props;
-    const color = tinycolor(linekey.color);
+    const {items,startDate,linekey,days,config} = this.props;
 
-    const colors = {
-      border : color.toString(),
-      background : color.setAlpha(.5).toRgbString()
-    }
+    const {ItemComponent,SideComponent} = config
 
     const layout = [{
-          i:linekey.title,
+          i:"_"+items[0].id,
           x:0,
           y:0,
           w:1,
@@ -100,7 +87,6 @@ export class DayListContainer extends Component {
                   }
                 }
             ))
-                  console.log(startDate)
 
     return itemsInWeek(items,startDate) ? <ReactGridLayoutw className="layout" layout={layout} cols={8} rowHeight={30} margin={[4,4]}
         onDragStart={checkSideBarOverlaps}
@@ -111,10 +97,10 @@ export class DayListContainer extends Component {
           {
             layout.map((item,index) => index === 0 ?
 
-              <div key={item.i} className="rpl-sidebar-item">{linekey.title}</div> :
+              <div key={item.i} className="rpl-sidebar-item"><SideComponent index={index} data={linekey}/></div> :
 
-              <div style={{...itemStyle,borderColor:colors.border,background: colors.background,borderLeft : "8px solid "+colors.border}} key={item.i}>
-                {item.data.content}
+              <div key={item.i} className="rpl-item">
+                <ItemComponent index={index} data={item.data}/>
               </div>
             )
           }
