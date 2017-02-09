@@ -28,12 +28,25 @@ const bodyStyle = {
 }
 
 
+const itemStyle = {
+  boxSizing : "border-box",
+  background: "rgba(0,0,0,0.5)",
+  border : "2px solid #000",
+  height:"100%"
+}
+
+const DayFormatter = ({date}) => <div>{format(date,"ddd D")}</div>
+const HeaderTitle = () => <div></div>
+const ItemComponent = () => <div style={itemStyle}></div>
+const SideComponent = () => <div></div>
+
 const defaultProps = {
   currentWeek: new Date(),
   config: {
-    DayFormatter : ({date}) => <div>{format(date,"ddd D")}</div>,
-    HeaderTitle : () => <div></div>,
-    ItemComponent : () => <div></div>
+    DayFormatter,
+    HeaderTitle,
+    ItemComponent,
+    SideComponent
   },
 };
 

@@ -21,12 +21,23 @@ const yesterday = addDays(now,-1)
 const lastWeek = addDays(now,-7)
 
 
-const ItemComponent = () => <div>0</div>
+const itemStyle = {
+  boxSizing : "border-box",
+  background: "rgba(0,0,0,0.5)",
+  border : "2px solid #000",
+  height:"100%"
+}
+const itemStyleDashed = {
+  ...itemStyle,
+  background: "rgba(0,0,0,0.2)",
+  border : "2px dashed rgba(0,0,0,0.8)",
+}
+
 
 const items = [
-  {id : 1 ,key:1,start:now,end:tomorrow,content:"Session 1 - Lieux 1 - Formateur 1",component:ItemComponent},
-  {id : 2 ,key:1,start:yesterday,end:tomorrow,content:"Session 2 - Lieux 1 - Formateur 1"},
-  {id : 3 ,key:2,start:tomorrow,end:tomorrow},
+  {id : 1 ,key:1,start:now,end:tomorrow,content:"Session 1 - Lieux 1 - Formateur 1"},
+  {id : 2 ,key:1,start:yesterday,end:tomorrow,content:"Session 2 - Lieux 1 - Formateur 1",dashed:true},
+  {id : 3 ,key:2,start:tomorrow,end:tomorrow,},
   {id : 4 ,key:3,start:lastWeek,end:now}
 ]
 
@@ -38,7 +49,8 @@ const config = {
   dateControls : false,
   weekStartOn : 1,
   DayFormatter : ({date}) => <div>{upperCaseFirst(format(date,"ddd D",{locale:localfr}))}</div>,
-
+  ItemComponent : ({data}) => <div style={data.dashed ? itemStyleDashed : itemStyle}>{data.content}</div>,
+  SideComponent : ({data}) => <div>{data.title}</div>
 }
 
 const props = {
@@ -47,8 +59,7 @@ const props = {
   config,
   currentWeek : new Date(),
   onItemMove : (event) => console.log("Item move Event",event),
-  onItemSelect : (event) => console.log("Item select Event",event),
-  headerTitle : "Modules"
+  onItemSelect : (event) => console.log("Item select Event",event)
 }
 
 

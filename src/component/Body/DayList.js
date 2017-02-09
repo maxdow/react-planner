@@ -14,16 +14,7 @@ import ReactGridLayout,{WidthProvider} from "react-grid-layout";
 const ReactGridLayoutw = WidthProvider(ReactGridLayout)
 
 
-const itemStyle = {
-  boxSizing : "border-box",
-  background: "rgba(0,0,0,0.5)",
-  border : "2px solid #000",
-  // borderRadius: "5px"//,
-  // height:"1.4em",
-  //position: "absolute",
-  //left:0,
-  // top:"0.3em"
-}
+
 
 const layoutEventToPlannerEvent = (layoutEvent,{items,linekey,startDate,days}) => {
   const {x,w,i} = layoutEvent;
@@ -65,19 +56,12 @@ export class DayListBody extends Component {
   }
   render(){
 
-    const {items,linekey,startDate,days,config} = this.props;
+    const {items,startDate,linekey,days,config} = this.props;
 
-    const {ItemComponent} = config
-
-    const color = tinycolor(linekey.color);
-
-    const colors = {
-      border : color.toString(),
-      background : color.setAlpha(.5).toRgbString()
-    }
+    const {ItemComponent,SideComponent} = config
 
     const layout = [{
-          i:linekey.title,
+          i:"_"+items[0].id,
           x:0,
           y:0,
           w:1,
@@ -113,10 +97,10 @@ export class DayListBody extends Component {
           {
             layout.map((item,index) => index === 0 ?
 
-              <div key={item.i} className="rpl-sidebar-item">{linekey.title}</div> :
+              <div key={item.i} className="rpl-sidebar-item"><SideComponent index={index} data={linekey}/></div> :
 
-              <div style={{...itemStyle,borderColor:colors.border,background: colors.background,borderLeft : "8px solid "+colors.border}} key={item.i}>
-                <ItemComponent />
+              <div key={item.i} className="rpl-item">
+                <ItemComponent index={index} data={item.data}/>
               </div>
             )
           }
