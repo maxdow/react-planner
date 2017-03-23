@@ -1,6 +1,5 @@
 import React,{Component} from "react"
 import isEqual from "lodash.isequal"
-import tinycolor from "tinycolor2"
 
 import addDays from "date-fns/add_days"
 
