@@ -57,7 +57,7 @@ export class Planner extends Component {
 
     this.state = {
       currentDate:new Date(),
-      currentStartDate: startOfWeek(props.currentWeek || new Date(),{weekStartsOn:1})
+      currentStartDate: startOfWeek(props.currentWeek || new Date(),{weekStartsOn:props.config.weekStartsOn})
     }
 
     this.decorateItemEvent = this.decorateItemEvent.bind(this)
@@ -70,14 +70,21 @@ export class Planner extends Component {
                           addWeeks(this.state.currentStartDate,
                                       isAdd ? 1:-1
                                   )
-                         ,{weekStartsOn:1})
+                         ,{weekStartsOn:this.props.config.weekStartsOn})
     })
 
   }
   handleMoveToday(){
     this.setState({
-      currentStartDate : startOfWeek(new Date())
+      currentStartDate : startOfWeek(new Date(),this.props.config.weekStartsOn)
     })
+  }
+  componentWillReceiveProps(nextProps){
+    if(nextProps.currentWeek !== this.props.currentWeek) {
+      this.setState({
+        currentStartDate: startOfWeek(nextProps.currentWeek,{weekStartsOn:nextProps.config.weekStartsOn})
+      })
+    }
   }
   decorateItemEvent(cb) {
     return (event) => cb ? cb({
